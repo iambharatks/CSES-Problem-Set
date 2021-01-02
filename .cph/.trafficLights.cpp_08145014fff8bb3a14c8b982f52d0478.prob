@@ -1,0 +1,1 @@
+{"name":"Local: trafficLights","url":"d:\\Bharat\\CSES Problem Set\\trafficLights.cpp","tests":[{"id":1606729301653,"input":"8 3\n3 6 2","output":"5 3 3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Bharat\\CSES Problem Set\\trafficLights.cpp","group":"local","local":true}
