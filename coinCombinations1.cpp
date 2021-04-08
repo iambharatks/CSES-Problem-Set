@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 
+
 using namespace std;
+
+// Coin Combinations I
+
 const int mod = 1e9 + 7;
+
 int combinations(vector<int> coin, int x)
 {
     int n = coin.size();
@@ -9,7 +14,7 @@ int combinations(vector<int> coin, int x)
     for (int i = 0; i < n; i++)
     {
         if (coin[i] > x)
-            continue;kf
+            continue;
         dp[coin[i]] = 1;
     }
     for (int i = 1; i <= x; i++)
