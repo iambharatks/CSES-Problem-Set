@@ -55,18 +55,29 @@ void solve()
 {
     ll n, x;
     cin >> n >> x;
-    vll price(n), pages(n);
+    vi price(n), pages(n);
     fo(i, 0, n - 1) cin >> price[i];
     fo(i, 0, n - 1) cin >> pages[i];
-    vvll dp(n + 1, vll(n + 1));
-    
+    int dp[n + 1][x + 1];
+    memset(dp, 0, sizeof(dp));
+    fo(i, 1, n)
+    {
+        fo(j, 1, x)
+        {
+            if (j >= price[i - 1])
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - price[i - 1]] + pages[i - 1]) % mod;
+            else
+                dp[i][j] = dp[i - 1][j];
+        }
+    }
+    cout << dp[n][x] << ln;
 }
 
 int main()
 {
     iambharatks;
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     for (int it = 1; it <= t; it++)
     {
         // cout << "Case #" << it << ": ";
