@@ -47,35 +47,40 @@ typedef vector<pi> vpi;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> indexed_set;
 
 const int MOD = 998244353;
-const int N = 2e5 + 5;
+const int N = 2e6 + 5;
 double eps = 1e-12;
 const int mod = 1e9 + 7;
+vvi dp(N + 1, vi(2, 1));
 
 void solve()
 {
     ll n;
     cin >> n;
-    vvll dp(n + 1, vll(2, 1));
-    fo(i, 2, n)
+    int res = dp[n][0] + dp[n][1];
+    res %= mod;
+    cout << res << ln;
+    // dbg(res);
+}
+void precompute()
+{
+    fo(i, 2, N)
     {
         // donot extend any tile
-        ll op1 = dp[i - 1][0] + dp[i - 1][1];
+        int op1 = (dp[i - 1][0] + dp[i - 1][1]) % mod;
         // extend both
-        ll op2 = dp[i - 1][0];
+        int op2 = dp[i - 1][0];
         // extend any tile
-        ll op3 = 2 * dp[i - 1][0];
-
-        dp[i][0] = (op1 + op2 + op3) % mod;
-        dp[i][1] = (op1 + op2) % mod;
+        int op3 = 2 * dp[i - 1][0] % mod;
+        // extend both tiles together
+        int op4 = dp[i - 1][1];
+        dp[i][0] = ((op1 + op2) % mod + op3) % mod;
+        dp[i][1] = (op1 + op4) % mod;
     }
-    ll res = dp[n][0] + dp[n][1];
-    res %= mod;
-    dbg(res);
 }
-
 int main()
 {
     iambharatks;
+    precompute();
     ll t = 1;
     cin >> t;
     for (int it = 1; it <= t; it++)
