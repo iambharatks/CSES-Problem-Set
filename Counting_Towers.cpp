@@ -53,13 +53,24 @@ const int mod = 1e9 + 7;
 
 void solve()
 {
-    ll n, x;
-    cin >> n >> x;
-    vll price(n), pages(n);
-    fo(i, 0, n - 1) cin >> price[i];
-    fo(i, 0, n - 1) cin >> pages[i];
-    vvll dp(n + 1, vll(n + 1));
-    
+    ll n;
+    cin >> n;
+    vvll dp(n + 1, vll(2, 1));
+    fo(i, 2, n)
+    {
+        // donot extend any tile
+        ll op1 = dp[i - 1][0] + dp[i - 1][1];
+        // extend both
+        ll op2 = dp[i - 1][0];
+        // extend any tile
+        ll op3 = 2 * dp[i - 1][0];
+
+        dp[i][0] = (op1 + op2 + op3) % mod;
+        dp[i][1] = (op1 + op2) % mod;
+    }
+    ll res = dp[n][0] + dp[n][1];
+    res %= mod;
+    dbg(res);
 }
 
 int main()
