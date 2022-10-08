@@ -53,16 +53,41 @@ const int mod = 1e9 + 7;
 
 void solve()
 {
+    ll n;
+    cin >> n;
+    ll sum = n * (n + 1) / 2;
+    if (sum & 1)
+    {
+        cout << "0\n";
+        return;
+    }
+    sum >>= 1;
+    vvll dp(n + 1, vll(sum + 1));
+    dp[0][0] = 1;
+    fo(i, 1, n) dp[0][i] = 0;
+    fo(i, 1, n)
+    {
+        fo(j, 1, sum)
+        {
+            if (j >= i)
+            {
+                dp[i][j] = dp[i - 1][j - i];
+            }
+            dp[i][j] += dp[i - 1][j];
+            dp[i][j] %= mod;
+        }
+    }
+    cout << dp[n][sum];
 }
 
 int main()
 {
     iambharatks;
     ll t = 1;
-    cin >> t;
+    // cin >> t;
     for (int it = 1; it <= t; it++)
     {
-        cout << "Case #" << it << ": ";
+        // cout << "Case #" << it << ": ";
         solve();
     }
     return 0;
