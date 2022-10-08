@@ -101,6 +101,8 @@ void solve()
     }
     q.push({sr, sc});
     ll er = -1, ec = -1;
+    vvb vis(n, vb(m));
+    vis[sr][sc] = true;
     while (!q.empty())
     {
         ll r = q.front().F, c = q.front().S;
@@ -115,11 +117,12 @@ void solve()
             ll nr, nc;
             nr = r + dr[i];
             nc = c + dc[i];
-            if (nr < 0 || nr >= n || nc < 0 || nc >= m || mat[nr][nc] == '#' || mat[nr][nc] == 'M')
+            if (nr < 0 || nr >= n || nc < 0 || nc >= m || mat[nr][nc] == '#' || mat[nr][nc] == 'M' || vis[nr][nc])
                 continue;
             if (dist[nr][nc] > M[r][c] + 1)
             {
                 q.push({nr, nc});
+                vis[nr][nc] = true;
                 M[nr][nc] = M[r][c] + 1;
                 parent[nr][nc] = {r, c};
             }
