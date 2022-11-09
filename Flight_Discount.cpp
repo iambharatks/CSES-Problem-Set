@@ -51,31 +51,55 @@ const int N = 2e5 + 5;
 double eps = 1e-12;
 const int mod = 1e9 + 7;
 
-void solve()
+struct cmp
 {
-    ll n;
-    cin >> n;
-    vll a(n);
-    bitset<N> bs;
-    fo(i, 0, n - 1)
+    bool operator()(vll &a, vll &b)
     {
-        cin >> a[i];
+        return a[1] > b[1];
     }
-    fo(i, 0, n - 1)
+};
+void solve()    
+{
+    ll n, m;
+    cin >> n >> m;
+    unordered_map<ll, vpll> adj;
+    ll u, v, w;
+    fo(i, 0, m - 1)
     {
-        bitset<N> nbs(bs);
-        nbs <<= a[i];
-        bs |= nbs;
-        bs.set(a[i]);
+        cin >> u >> v >> w;
+        adj[u].pb({v, w});
     }
-    vll res;
-    fo(i, 0, N - 1)
+    map<ll, vll> mp;
+    mp[1] = {1, 0, 0};
+    ll res = LONG_LONG_MAX;
+    while (!mp.empty())
     {
-        if (bs.test(i))
-            res.pb(i);
+        vll tp = mp.begin()->second;
+        cout << tp[0] << " " << tp[1] << " " << tp[2] << "\n";
+        if (tp[0] == n)
+        {
+            res = min(res, tp[1]);
+        }
+        mp.erase(mp.begin());
+        if (tp[0] == n)
+            continue;
+        for (auto neigh : adj[tp[0]])
+        {
+            ll disc = max(tp[2], neigh.S);
+            ll dis = tp[1] + neigh.S + tp[2] - tp[2] / 2;
+            dis += disc / 2 - disc;
+            if (mp.count(neigh.F))
+            {
+                if (mp[neigh.F][1] == dis && mp[neigh.F][2] > disc)
+                    mp[neigh.F] = {neigh.F, dis, disc};
+                else if (mp[neigh.F][1] > dis)
+                    mp[neigh.F] = {neigh.F, dis, disc};
+            }
+            else
+                mp[neigh.F] = {neigh.F, dis, disc};
+        }
     }
-    cout << sz(res) << '\n';
-    fo(i, 0, sz(res) - 1) cout << res[i] << " ";
+    cout << (res == LLONG_MAX ? -1 : res);
 }
 
 int main()
